@@ -23,7 +23,7 @@ RUN dnf -qy module disable postgresql
 #Install WGET
 RUN dnf install wget
 #Install the repository PosrgesPRO-1c-13
-RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/1c-13/keys/pgpro-repo-add.sh
+RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/1c/1c-13/keys/pgpro-repo-add.sh
 #COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
 RUN /opt/pgpro-repo-add.sh
