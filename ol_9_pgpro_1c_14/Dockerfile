@@ -21,13 +21,13 @@ RUN groupadd -r postgres --gid=9999 ; \
 #Disable the built-in PostgreSQL module
 RUN dnf -qy module disable postgresql
 #Install WGET
-RUN dnf install wget
+RUN dnf install -y wget
 #Install the repository PosrgesPRO-1c-14
 RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/1c/1c-14/keys/pgpro-repo-add.sh
 #COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
 RUN /opt/pgpro-repo-add.sh
-RUN dnf install -y postgrespro-1c-14-server postgrespro-1c-14-contib
+RUN dnf install -y postgrespro-1c-14-server postgrespro-1c-14-contrib
 RUN dnf clean all
 
 #Change settings
