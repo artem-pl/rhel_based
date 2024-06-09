@@ -27,7 +27,7 @@ RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/1c/1c-13/keys/pgp
 #COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
 RUN /opt/pgpro-repo-add.sh
-RUN dnf install -y postgrespro-1c-13-server
+RUN dnf install -y postgrespro-1c-13-server postgrespro-1c-13-contib
 RUN dnf clean all
 
 #Change settings
