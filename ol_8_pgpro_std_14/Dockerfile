@@ -27,7 +27,7 @@ RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/std-14/keys/p
 #COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
 RUN /opt/pgpro-repo-add.sh
-RUN dnf install -y postgrespro-std-14-server
+RUN dnf install -y postgrespro-std-14-server postgrespro-std-14-contrib
 RUN dnf clean all
 
 #Change settings
