@@ -22,7 +22,7 @@ RUN groupadd -r postgres --gid=9999 ; \
 RUN dnf -qy module disable postgresql
 #Install WGET
 RUN dnf install -y wget
-#Install the repository PosrgesPRO-std-13
+#Install the repository PosrgesPRO-STD-13
 RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/std-13/keys/pgpro-repo-add.sh
 #COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
