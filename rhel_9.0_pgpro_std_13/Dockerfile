@@ -1,4 +1,4 @@
-FROM container-registry.oracle.com/os/oraclelinux:8.10
+FROM registry.access.redhat.com/ubi9/ubi:9.0
 
 #Update from repository
 #RUN dnf update -y

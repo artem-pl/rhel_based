@@ -1,4 +1,4 @@
-FROM container-registry.oracle.com/os/oraclelinux:8.10
+FROM container-registry.oracle.com/os/oraclelinux:8.0
 
 #Update from repository
 #RUN dnf update -y
