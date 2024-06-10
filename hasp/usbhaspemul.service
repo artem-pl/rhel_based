@@ -1,0 +1,10 @@
+[Unit]
+Description=Emulation HASP key for 1C
+Requires=haspd.service
+After=haspd.service
+[Service]
+Type=simple
+ExecStart=/usr/bin/sh -c 'find /etc/usbhaspkey -name "*.json" | xargs /usr/local/sbin/usbhasp'
+Restart=always
+[Install]
+WantedBy=multi-user.target
