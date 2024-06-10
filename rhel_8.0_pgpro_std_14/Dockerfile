@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.10
+FROM registry.access.redhat.com/ubi8/ubi:8.0
 
 #Update from repository
 #RUN dnf update -y
