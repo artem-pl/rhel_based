@@ -13,28 +13,27 @@ ENV PGDATA=/_data/pg_data
 
 #Explicitly set user/group IDs and data dir
 RUN groupadd -r postgres --gid=9999 ; \
-    useradd -r -g postgres --uid=9999 postgres ; \
-    mkdir -p $PGDATA ; \
-    chown -R postgres:postgres $PGDATA ; \
-    chmod 700 $PGDATA
+	useradd -r -g postgres --uid=9999 postgres ; \
+	mkdir -p $PGDATA ; \
+	chown -R postgres:postgres $PGDATA ; \
+	chmod 700 $PGDATA
 
 #Disable the built-in PostgreSQL module
 RUN dnf -qy module disable postgresql
 #Install WGET
 RUN dnf install -y wget
 #Install the repository PosrgesPRO-STD-13
-RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/std-13/keys/pgpro-repo-add.sh
-#COPY pgpro-repo-add.sh /opt
-RUN chmod +x /opt/pgpro-repo-add.sh
-RUN /opt/pgpro-repo-add.sh
-RUN dnf install -y postgrespro-std-13-server postgrespro-std-13-contrib
-RUN dnf clean all
+RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/std-13/keys/pgpro-repo-add.sh ; \
+	chmod +x /opt/pgpro-repo-add.sh ; \
+	/opt/pgpro-repo-add.sh ; \
+	dnf install -y postgrespro-std-13-server postgrespro-std-13-contrib ; \
+	dnf clean all
 
 #Change settings
 RUN sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /opt/pgpro/std-13/share/postgresql.conf.sample ; \
-    sed -ri "s!^#?(logging_collector)\s*=\s*\S+.*!\1 = on!" /opt/pgpro/std-13/share/postgresql.conf.sample ; \
-    sed -ri "s!^#?(log_directory)\s*=\s*\S+.*!\1 = 'log'!" /opt/pgpro/std-13/share/postgresql.conf.sample ; \
-    sed -ri "s!^#?(lc_messages)\s*=\s*\S+.*!\1 = 'C.UTF-8'!" /opt/pgpro/std-13/share/postgresql.conf.sample
+	sed -ri "s!^#?(logging_collector)\s*=\s*\S+.*!\1 = on!" /opt/pgpro/std-13/share/postgresql.conf.sample ; \
+	sed -ri "s!^#?(log_directory)\s*=\s*\S+.*!\1 = 'log'!" /opt/pgpro/std-13/share/postgresql.conf.sample ; \
+	sed -ri "s!^#?(lc_messages)\s*=\s*\S+.*!\1 = 'C.UTF-8'!" /opt/pgpro/std-13/share/postgresql.conf.sample
 
 #Setup for start
 ENV PATH $PATH:/opt/pgpro/std-13/bin

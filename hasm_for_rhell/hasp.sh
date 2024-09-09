@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cd /root
-dnf -y install glibc
+dnf -y groupinstall "Development Tools"
 curl -LOJ https://github.com/kostik-pl/rhel8-public/raw/7d5599c94292d0609503aa525dec718df1f9ec90/HASP/haspd-7.90-eter2centos.x86_64.rpm
 curl -LOJ https://github.com/kostik-pl/rhel8-public/raw/7d5599c94292d0609503aa525dec718df1f9ec90/HASP/haspd-modules-7.90-eter2centos.x86_64.rpm
 dnf -y localinstall haspd*

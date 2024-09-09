@@ -1,16 +1,18 @@
 #!/bin/bash
 
-#Disable selinux
-sed -i 's/enforcing/disabled/g' /etc/selinux/config
+#Register on RedHat
+echo 'System must be registered on RedHat site...'
+subscription-manager register
+insights-client --register
 
 #Disable IP6 in GRUB or SYSTEM_CONFIG
-grubby --update-kernel=ALL --args="ipv6.disable=1"
-#sysctl -w net.ipv6.conf.all.disable_ipv6=1
-#sysctl -w net.ipv6.conf.default.disable_ipv6=1
-#sysctl -w net.ipv6.conf.lo.disable_ipv6=1
-sysctl -p
-nmcli connection modify ens192 ipv6.method "disabled"
+echo 'Disabel IPv6...'
+grub2-editenv - set "$(grub2-editenv - list | grep kernelopts) ipv6.disable=1"
 firewall-cmd --permanent --zone=public --remove-service=dhcpv6-client
+
+#Disable selinux
+echo 'Disable selinux...'
+sed -i 's/enforcing/disabled/g' /etc/selinux/config
 
 #Setup system
 dnf upgrade -y

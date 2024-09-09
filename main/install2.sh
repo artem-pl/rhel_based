@@ -1,22 +1,22 @@
 #!/bin/bash
 
 #Check disk
-FILE1="/dev/disk/by-label/_containers"
-DISK1="/dev/disk/by-label/_containers /_containers auto nosuid,nodev,nofail,x-gvfs-show 0 0"
+#FILE1="/dev/disk/by-label/_containers"
+#DISK1="/dev/disk/by-label/_containers /_containers auto nosuid,nodev,nofail,x-gvfs-show 0 0"
 FILE2="/dev/disk/by-label/_data"
 DISK2="/dev/disk/by-label/_data /_data auto nosuid,nodev,nofail,x-gvfs-show 0 0"
 
-if [ ! -L "$FILE1" ]
-then
-    echo "Disk labeled as $FILE1 not found"
-    read -p "Continue? " -n 1 -r
-    if [[ $REPLY =~ ^[Nn]$ ]]
-    then
-        exit 1
-    fi
-else
-    echo "Disk labeled as $FILE1 found"
-fi
+#if [ ! -L "$FILE1" ]
+#then
+#    echo "Disk labeled as $FILE1 not found"
+#    read -p "Continue? " -n 1 -r
+#    if [[ $REPLY =~ ^[Nn]$ ]]
+#    then
+#        exit 1
+#    fi
+#else
+#    echo "Disk labeled as $FILE1 found"
+#fi
 if [ ! -L "$FILE2" ]
 then
     echo "Disk labeled as $FILE2 not found"
@@ -30,24 +30,35 @@ else
 fi
 
 #Setup disk
-if ! grep -q '/_containers' /etc/fstab
-then
-    echo "Addind $FILE1 to fstab"
-    printf "$DISK1\n" >> /etc/fstab
-fi
+#if ! grep -q '/_containers' /etc/fstab
+#then
+#    echo "Addind $FILE1 to fstab"
+#    printf "$DISK1\n" >> /etc/fstab
+#fi
 if ! grep -q '/_data' /etc/fstab
 then
     echo "Addind $FILE2 to fstab"
     printf "$DISK2\n" >> /etc/fstab
 fi
+#if [ ! -d "/_containers" ] ; then
+#    mkdir /_containers
+#	chown -R root:root /_containers
+#	chmod -R 700 /_containers
+#fi
+if [ ! -d "/_data" ] ; then
+    mkdir /_data
+	chown -R root:root /_data
+	chmod -R 666 /_data
+fi
+systemctl daemon-reload
 mount -a
 
 #Change PODMAN config, path to containers storage
-sed -i 's/graphroot = "\/var\/lib\/containers\/storage"/graphroot = "\/_containers"/g' /etc/containers/storage.conf
+#sed -i 's/graphroot = "\/var\/lib\/containers\/storage"/graphroot = "\/_containers"/g' /etc/containers/storage.conf
 
 #Add POSTGRES GROUP and USER same as in container
-groupadd -r postgres --gid=99
-useradd -r -M -g postgres --uid=99 postgres
+groupadd -r postgres --gid=9999
+useradd -r -M -g postgres --uid=9999 postgres
 
 #Change access rights
 if [ ! -d "/_data/pg_backup" ] ; then
@@ -56,10 +67,8 @@ fi
 if [ ! -d "/_data/pg_data" ] ; then
     mkdir /_data/pg_data
 fi
-chown -R root:root /_data
-chmod -R 777 /_data
-chown -R root:root /_containers
-chmod -R 700 /_containers
+#chown -R root:root /_containers
+#chmod -R 700 /_containers
 chown -R postgres:postgres /_data/pg_backup
 chmod -R 777 /_data/pg_backup
 chown -R postgres:postgres /_data/pg_data
@@ -72,11 +81,11 @@ firewall-cmd --reload
 #Start POSTGRESPRO container
 #Change the image name to the desired image. Example kostikpl/ol9:pgpro_1c_13 > kostikpl/rhel8:pgpro_std_13
 HOSTNAME=`hostname`
-podman run --name pgpro  --hostname $HOSTNAME -dt -p 5432:5432 -v /_data:/_data docker.io/kostikpl/ubuntu_22.04:pgsql_std_13
+podman run --name pgpro  --hostname $HOSTNAME -dt -p 5432:5432 -v /_data:/_data docker.io/kostikpl/ol_9:pgpro_std_13
 podman generate systemd --new --name pgpro > /etc/systemd/system/pgpro.service
-systemctl enable --now pgpro
-PG_PASSWD = 'RheujvDhfub72'
-podman exec -ti pgpro -c "ALTER USER postgres WITH PASSWORD $PG_PASSWD;"
+systemctl enable pgpro
+#PG_PASSWD = 'RheujvDhfub72'
+#podman exec -ti pgpro -c "ALTER USER postgres WITH PASSWORD $PG_PASSWD;"
 
 #Clean
 dnf clean all
