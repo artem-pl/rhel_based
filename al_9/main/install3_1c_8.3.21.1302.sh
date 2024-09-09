@@ -13,18 +13,19 @@ fi
 chown -R usr1cv8:grp1cv8 /_data/srv1c_inf_log
 chmod -R 700 /_data/srv1c_inf_log
 
-#Install 1C Enterprise requirements from repositories
-#dnf install -y epel-release
+#Install 1C Enterprise requirements from STANDART repositories
 echo 'Dowload and install addons...'
-#dnf install -y imagemagick
 dnf install -y unixODBC
-#dnf install -y libgsf-1-114
-#dnf install -y cabextract xorg-x11-font-utils fontconfig
+dnf install -y libgsf
 
+#Install 1C Enterprise requirements from EPEL repositories
+dnf install -y epel-release
+dnf install -y ImageMagick
 
 #Install 1C Enterprise server requirements from custom packages
 curl "https://drive.usercontent.google.com/download?id=1-6UeVusRsqn33AAmAozG_NH-CmHDwKMx&confirm=xxx" -o msttcorefonts-2.5-1.noarch.rpm
 rpm -ivh msttcorefonts-2.5-1.noarch.rpm
+fc-cache /usr/share/fonts
 
 #Install 1C Enterprise server packages from work dir
 #Download form GOOGLE
@@ -32,7 +33,7 @@ curl "https://drive.usercontent.google.com/download?id=194Gy41zfqAZD46mad-lmPuSQ
 tar -xf server64_8_3_21_1302.tar.gz
 chmod +x setup-full-8.3.21.1302-x86_64.run
 #ATTENTION! Batch installation will always install the 1c client and, if missing, the trimmed GNOME
-./setup-full-8.3.21.1302-x86_64.run #--mode unattended --enable-components server,server_admin,ws,uk,ru
+./setup-full-8.3.21.1302-x86_64.run --mode unattended --disable-components client_full,client_thin,client_thin_fib,config_storage_server,liberica_jre,integrity_monitoring --enable-components server,server_admin,ws,additional_admin_functions,uk,ru
 #Manual installation, if have GUI (GNOME), the process will run in it
 #./setup-full-8.3.21.1302-x86_64.run
 
