@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<service>
+  <short>srv1c</short>
+  <description>Server 1c Enterprise</description>
+  <port protocol="tcp" port="1540-1541"/>
+  <port protocol="tcp" port="1560-1591"/>
+</service>

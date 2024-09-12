@@ -18,30 +18,27 @@ else
 		[yY] ) 
 			echo 'Ok, we will proceed...'
 			disk_sdb=( $(lsblk -o KNAME | grep 'sdb') )
-			if [ ! -z "$disk_sdb" ]
+			if [ ! -z ${disk_sdb+x} ]
 			then
 				read -p 'Disk [/dev/sdb] exist, want to use it for mapping [/_data] ? [Y/n]: ' -n 1 -r
 				echo
 				if [[ "$REPLY" =~ ^[yY]$ ]]; then
 					disk_sdb1=( $(lsblk -o KNAME | grep 'sdb1') )
 					disk_sdb2=( $(lsblk -o KNAME | grep 'sdb2') )
-					if [ ! -z "$disk_sdb1" -a ! -z "$disk_sdb2" ]
+					if [ ! -z ${disk_sdb1+x} -a ! -z ${disk_sdb2+x} ]
 					then
 						echo 'Disk [sdb] has more than one partition...'
 						echo 'Exiting...'; exit 1
-					elif [ -z "$disk_sdb1" -a -z "$disk_sdb2" ]; then
+					elif [ -z ${disk_sdb1+x} -a -z ${disk_sdb2+x} ]; then
 						echo 'Disk [sdb] has no partition...'
 						echo 'Create partition on [/dev/sdb]'
 						parted -a optimal -s /dev/sdb mklabel GPT mkpart primary xfs 0% 100%
-						sleep 5s
 						mkfs.xfs /dev/sdb1
-						sleep 5s
 						xfs_admin -L _data /dev/sdb1
 						echo 'Addind [/dev/disk/by-label/_data] to fstab.'
 						printf '/dev/disk/by-label/_data /_data auto nosuid,nodev,nofail,x-gvfs-show 0 0\n' >> /etc/fstab
 					else
 						disk_sdb1_xfs=( $(lsblk -o KNAME,FSTYPE | grep -E 'sdb1.+xfs') )
-						echo '...'
 						if [ ! -z ${disk_sdb1_xfs+x} ]
 						then
 							echo 'Make label [_data] for partition [sdb1].'
@@ -86,24 +83,22 @@ else
 		[yY] ) 
 			echo 'Ok, we will proceed...'
 			disk_sdc=( $(lsblk -o KNAME | grep 'sdc') )
-			if [ ! -z "$disk_sdc" ]
+			if [ ! -z ${disk_sdc+x} ]
 			then
 				read -p 'Disk [/dev/sdc] exist, want to use it for mapping [/_storage] ? [Y/n]: ' -n 1 -r
 				echo
 				if [[ "$REPLY" =~ ^[yY]$ ]]; then
 					disk_sdc1=( $(lsblk -o KNAME | grep 'sdc1') )
 					disk_sdc2=( $(lsblk -o KNAME | grep 'sdc2') )
-					if [ ! -z "$disk_sdc1" -a ! -z "$disk_sdc2" ]
+					if [ ! -z ${disk_sdc1+x} -a ! -z ${disk_sdc2+x} ]
 					then
 						echo 'Disk [sdc] has more than one partition...'
 						echo 'Exiting...'; exit 1
-					elif [ -z "$disk_sdc1" -a -z "$disk_sdc2" ]; then
+					elif [ -z ${disk_sdc1+x} -a -z ${disk_sdc2+x} ]; then
 						echo 'Disk [sdc] has no partition...'
 						echo 'Create partition on [/dev/sdc]'
 						parted -a optimal -s /dev/sdc mklabel GPT mkpart primary xfs 0% 100%
-						sleep 5s
 						mkfs.xfs /dev/sdc1
-						sleep 5s
 						xfs_admin -L _storage /dev/sdc1
 						echo 'Addind [/dev/disk/by-label/_storage] to fstab.'
 						printf '/dev/disk/by-label/_storage /_storage auto nosuid,nodev,nofail,x-gvfs-show 0 0\n' >> /etc/fstab

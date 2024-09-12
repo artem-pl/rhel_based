@@ -1,4 +1,4 @@
-FROM almalinux:9
+FROM almalinux:8
 
 #Update from repository
 #RUN dnf update -y

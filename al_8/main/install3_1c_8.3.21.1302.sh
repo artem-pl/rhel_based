@@ -45,3 +45,7 @@ systemctl enable srv1cv8-8.3.21.1302@default
 systemctl enable ras-8.3.21.1302
 systemctl start srv1cv8-8.3.21.1302@default
 systemctl start ras-8.3.21.1302
+
+curl "https://drive.usercontent.google.com/download?id=1RND475Sc9MquDt9W1At9rMQP_N6OOfSk&confirm=xxx" -o /etc/firewalld/services/srv1c.xml
+firewall-cmd --permanent --add-service=srv1c
+firewall-cmd --reload
