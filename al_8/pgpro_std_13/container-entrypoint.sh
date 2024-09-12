@@ -7,7 +7,7 @@ if [ ! -d "/_data/srv1c_inf_log" ] ; then
 	mkdir /_data/pg_data
 fi
 chown -R postgres:postgres /_data/pg_backup
-chmod -R 666 /_data/pg_backup
+chmod -R 633 /_data/pg_backup
 chown -R postgres:postgres /_data/pg_data
 chmod -R 700 /_data/pg_data
 
