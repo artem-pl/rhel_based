@@ -15,7 +15,7 @@ chmod -R 700 /_data/srv1c_inf_log
 
 #Install 1C Enterprise requirements from STANDART repositories
 echo 'Dowload and install addons...'
-dnf install -y install postgresql-odbc
+dnf install -y postgresql-odbc
 dnf install -y libgsf
 
 #Install 1C Enterprise requirements from EPEL repositories
