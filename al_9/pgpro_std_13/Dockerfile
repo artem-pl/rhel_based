@@ -16,15 +16,19 @@ RUN groupadd -r postgres --gid=9999 ; \
     useradd -r -g postgres --uid=9999 postgres ; \
     mkdir -p $PGDATA ; \
     chown -R postgres:postgres $PGDATA ; \
-    chmod 700 $PGDATA
+    chmod 700 $PGDATA ; \
+    mkdir -p /_data/pg_backup ; \
+    chown -R postgres:postgres /_data/pg_backup ; \
+    chmod 777 /_data/pg_backup
 
 #Disable the built-in PostgreSQL module
 RUN dnf -qy module disable postgresql
+
 #Install WGET
 RUN dnf install -y wget
+
 #Install the repository PosrgesPRO-STD-13
 RUN curl -o /opt/pgpro-repo-add.sh https://repo.postgrespro.ru/std/std-13/keys/pgpro-repo-add.sh
-#COPY pgpro-repo-add.sh /opt
 RUN chmod +x /opt/pgpro-repo-add.sh
 RUN /opt/pgpro-repo-add.sh
 RUN dnf install -y postgrespro-std-13-server postgrespro-std-13-contrib

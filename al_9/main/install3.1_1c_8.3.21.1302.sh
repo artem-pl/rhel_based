@@ -47,9 +47,14 @@ systemctl start srv1cv8-8.3.21.1302@default
 systemctl start ras-8.3.21.1302
 
 curl "https://drive.usercontent.google.com/download?id=1RND475Sc9MquDt9W1At9rMQP_N6OOfSk&confirm=xxx" -o /etc/firewalld/services/srv1c.xml
-firewall-cmd --permanent --add-service=srv1c
+firewall-cmd --reload
+firewall-cmd --permanent --zone=public --add-service=srv1c
 firewall-cmd --reload
 
 #Make change for httpd(Apache)
-printf "\nInclude /_data/httpd/conf/extra/httpd-1C-pub.conf\n" >> /etc/httpd/conf/httpd.conf
+usermod -G grp1cv8 httpd
+mkdir /_data/httpd/conf/extra
+chown -R usr1cv8:grp1cv8 /_data/httpd
+chmod -R 750 /_dara/httpd
+printf "\nInclude /_data/httpd/conf/extra/*.conf\n" >> /etc/httpd/conf/httpd.conf
 systemctl restart httpd

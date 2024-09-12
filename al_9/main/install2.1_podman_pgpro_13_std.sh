@@ -28,7 +28,7 @@ echo 'Pull and setup container...'
 podman run --name pgpro --shm-size 2G -d -p 5432:5432 -v /_data:/_data docker.io/kostikpl/al_9:pgpro_std_13
 podman generate systemd --new --name pgpro > /etc/systemd/system/pgpro.service
 systemctl enable --now pgpro
-firewall-cmd --permanent --add-service=postgresql
+firewall-cmd --permanent --zone=public --add-service=postgresql
 firewall-cmd --reload
 sleep 15s
 PG_PASSWD='RheujvDhfub72'
