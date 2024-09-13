@@ -52,9 +52,11 @@ firewall-cmd --permanent --zone=public --add-service=srv1c
 firewall-cmd --reload
 
 #Make change for httpd(Apache)
-usermod -G grp1cv8 httpd
+usermod -G grp1cv8 apache
+mkdir /_data/httpd/
+mkdir /_data/httpd/conf
 mkdir /_data/httpd/conf/extra
 chown -R usr1cv8:grp1cv8 /_data/httpd
 chmod -R 750 /_data/httpd
-printf "\nInclude /_data/httpd/conf/extra/*.conf\n" >> /etc/httpd/conf/httpd.conf
+printf "\n#Include /_data/httpd/conf/extra/httpd-1C-pub.conf\n#Include /_data/httpd/conf/extra/httpd-1C-pub-unauth.conf\n" >> /etc/httpd/conf/httpd.conf
 systemctl restart httpd
