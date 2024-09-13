@@ -55,6 +55,6 @@ firewall-cmd --reload
 usermod -G grp1cv8 httpd
 mkdir /_data/httpd/conf/extra
 chown -R usr1cv8:grp1cv8 /_data/httpd
-chmod -R 750 /_dara/httpd
+chmod -R 750 /_data/httpd
 printf "\nInclude /_data/httpd/conf/extra/*.conf\n" >> /etc/httpd/conf/httpd.conf
 systemctl restart httpd
