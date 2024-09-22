@@ -1,4 +1,0 @@
-[yum.oracle.com_repo_oraclelinux_ol9_uekr7_x86_64]
-name=created by dnf config-manager from https://yum.oracle.com/repo/OracleLinux/OL9/UEKR7/x86_64
-baseurl=https://yum.oracle.com/repo/OracleLinux/OL9/UEKR7/x86_64
-enabled=1

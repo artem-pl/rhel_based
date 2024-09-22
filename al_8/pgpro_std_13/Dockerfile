@@ -19,7 +19,7 @@ RUN groupadd -r postgres --gid=9999 ; \
     chmod 700 $PGDATA ; \
     mkdir -p /_data/pg_backup ; \
     chown -R postgres:postgres /_data/pg_backup ; \
-    chmod 777 /_data/pg_backup
+    chmod 700 /_data/pg_backup
 
 #Disable the built-in PostgreSQL module
 RUN dnf -qy module disable postgresql
